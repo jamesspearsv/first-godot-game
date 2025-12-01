@@ -1,28 +1,48 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnkju6njf8kno"]
+[gd_scene load_steps=7 format=3 uid="uid://cnkju6njf8kno"]
 
-[ext_resource type="PackedScene" uid="uid://jyfjaonf2swn" path="res://sprite_2d.tscn" id="1_mlf6e"]
-[ext_resource type="Script" uid="uid://0rkajqx1m3hk" path="res://button.gd" id="2_po0ka"]
+[ext_resource type="Texture2D" uid="uid://c74dyshewsonn" path="res://art/playerGrey_up1.png" id="1_mixcd"]
+[ext_resource type="Texture2D" uid="uid://gtjoaawlewmc" path="res://art/playerGrey_up2.png" id="2_mj2jn"]
+[ext_resource type="Texture2D" uid="uid://di4n0he4g5gki" path="res://art/playerGrey_walk1.png" id="3_kdryc"]
+[ext_resource type="Texture2D" uid="uid://eli157axtoqr" path="res://art/playerGrey_walk2.png" id="4_6e45b"]
 
-[node name="Game Scene" type="Node2D"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_e35lh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_mixcd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_mj2jn")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_kdryc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_6e45b")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
 
-[node name="Sprite2D" parent="." instance=ExtResource("1_mlf6e")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mixcd"]
+radius = 28.0
+height = 70.0
 
-[node name="Timer" type="Timer" parent="Sprite2D"]
-autostart = true
+[node name="Area2D" type="Area2D"]
+position = Vector2(101, 112)
+metadata/_edit_group_ = true
 
-[node name="Button" type="Button" parent="."]
-offset_left = 38.0
-offset_top = 29.0
-offset_right = 224.0
-offset_bottom = 96.0
-size_flags_horizontal = 6
-size_flags_vertical = 6
-text = "Toggle Motion"
-script = ExtResource("2_po0ka")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_e35lh")
+animation = &"up"
 
-[node name="Timer2" type="Timer" parent="Button"]
-wait_time = 1.5
-
-[connection signal="said_hello" from="Sprite2D" to="Button" method="_on_sprite_2d_said_hello"]
-[connection signal="pressed" from="Button" to="Sprite2D" method="_on_button_pressed"]
-[connection signal="timeout" from="Button/Timer2" to="Button" method="_on_timer_2_timeout"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_mixcd")
