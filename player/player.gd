@@ -52,3 +52,7 @@ func _on_body_entered(body: Node2D) -> void:
 	hide()
 	hit.emit()
 	$CollisionShape2D.set_deferred('disabled', true)
+
+func start(start_position: Vector2) -> void:
+	position = start_position
+	show()
