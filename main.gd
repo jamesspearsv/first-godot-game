@@ -15,24 +15,31 @@ func _process(_delta: float) -> void:
 	pass
 
 
+func new_game():
+	score = 0
+	get_tree().call_group("mobs", "queue_free")
+	
+	$HUD.update_score(score)
+	$HUD.show_message("Get Ready!")
+	$StartTimer.start()
+
+
 func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
-
-
-func new_game():
-	score = 0
-	$Player.start($StartPosition.position)
-	$StartTimer.start()
+	$HUD.show_game_over()
 
 
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
+	$Player.start($StartPosition.position)
+	
 
 
 func _on_score_timer_timeout() -> void:
 	score += 1
+	$HUD.update_score(score)
 
 
 func _on_mob_timer_timeout():
